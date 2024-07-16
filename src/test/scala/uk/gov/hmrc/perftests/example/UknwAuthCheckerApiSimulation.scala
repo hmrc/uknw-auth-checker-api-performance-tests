@@ -27,7 +27,7 @@ class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
     Seq(getBearerToken)
   } else {
     Seq(
-      //Need to implement to run in production
+      // Need to implement to run in production
     )
   }
 

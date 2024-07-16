@@ -24,10 +24,9 @@ import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 object UknwAuthCheckerApiRequests extends ServicesConfiguration {
 
-  val baseUrl: String = baseUrlFor("uknw-auth-checker-api")
-  val route: String   = "/authorisations"
+  val baseUrl: String             = baseUrlFor("uknw-auth-checker-api")
+  val route: String               = "/authorisations"
   private val bearerToken: String = if (runLocal) s"$${accessToken}" else s"Bearer $${accessToken}"
-
 
   val navigateToHomePage: HttpRequestBuilder =
     http("Navigate to Home Page")

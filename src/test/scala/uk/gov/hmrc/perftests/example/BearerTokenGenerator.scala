@@ -46,7 +46,6 @@ object BearerTokenGenerator extends ServicesConfiguration {
       .check(header("Authorization").saveAs("accessToken"))
       .check(status.is(HttpResponseStatus.CREATED.code()))
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit =
     getBearerToken
-  }
 }
