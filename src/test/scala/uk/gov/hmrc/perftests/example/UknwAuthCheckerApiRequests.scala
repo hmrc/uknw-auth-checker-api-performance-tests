@@ -20,27 +20,25 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import io.netty.handler.codec.http.HttpResponseStatus
+import org.scalacheck.Gen
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
+import wolfendale.scalacheck.regexp.RegexpGen
 
 object UknwAuthCheckerApiRequests extends ServicesConfiguration {
 
   val baseUrl: String             = baseUrlFor("uknw-auth-checker-api")
   val route: String               = "/authorisations"
   private val bearerToken: String = if (runLocal) s"$${accessToken}" else s"Bearer $${accessToken}"
-
-  val navigateToHomePage: HttpRequestBuilder =
-    http("Navigate to Home Page")
-      .get(s"$baseUrl$route/vat-return-period")
-      .check(status.is(200))
-      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
+  val eoriGen: Gen[String]        = RegexpGen.from("^(GB|XI)[0-9]{12}|(GB|XI)[0-9]{15}$")
+  val eorisGen: Gen[Seq[String]]  = Gen.chooseNum(1, 3000).flatMap(n => Gen.listOfN(n, "\"" + eoriGen.sample.get + "\""))
 
   val postAuthorisations: HttpRequestBuilder =
     http("Post Authorisations")
       .post(s"$baseUrl$route": String)
-      .body(StringBody("""{
+      .body(StringBody(s"""{
                          |  "date":"2024-02-08",
                          |  "authType": "UKNW",
-                         |  "eoris" : ["GB000000000200"]
+                         |  "eoris" : [${eorisGen.sample.get.mkString(",")}]
                          |}""".stripMargin))
       .headers(
         Map(
