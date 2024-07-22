@@ -28,9 +28,9 @@ object Helper {
       source.close()
   }
 
-  val singleEoriJsonBody: String           = withFileAsString("src/test/resources/data/singleEori.json")
-  val hundredEoriJsonBody: String           = withFileAsString("src/test/resources/data/100Eori.json")
-  val fiveHundredEoriJsonBody: String           = withFileAsString("src/test/resources/data/500Eori.json")
-  val thousandEoriJsonBody: String           = withFileAsString("src/test/resources/data/1000Eori.json")
-  val threeThousandEoriJsonBody: String           = withFileAsString("src/test/resources/data/3000Eori.json")
+  val singleEoriJsonBody: String        = withFileAsString("src/test/resources/data/1Eori.json")
+  val hundredEoriJsonBody: String       = withFileAsString("src/test/resources/data/100Eori.json")
+  val fiveHundredEoriJsonBody: String   = withFileAsString("src/test/resources/data/500Eori.json")
+  val thousandEoriJsonBody: String      = withFileAsString("src/test/resources/data/1000Eori.json")
+  val threeThousandEoriJsonBody: String = withFileAsString("src/test/resources/data/3000Eori.json")
 }

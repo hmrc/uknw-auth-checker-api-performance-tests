@@ -27,6 +27,8 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
 
   val baseUrl: String             = baseUrlFor("uknw-auth-checker-api")
   val route: String               = "/authorisations"
+  private val acceptType          = "application/vnd.hmrc.1.0+json"
+  private val mimeType            = "application/json"
   private val bearerToken: String = if (runLocal) s"$${accessToken}" else s"Bearer $${accessToken}"
 
   val postAuthorisation: HttpRequestBuilder =
@@ -36,8 +38,8 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> "application/vnd.hmrc.1.0+json",
-          HttpHeaderNames.ContentType   -> "application/json"
+          HttpHeaderNames.Accept        -> acceptType,
+          HttpHeaderNames.ContentType   -> mimeType
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
@@ -49,8 +51,8 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> "application/vnd.hmrc.1.0+json",
-          HttpHeaderNames.ContentType   -> "application/json"
+          HttpHeaderNames.Accept        -> acceptType,
+          HttpHeaderNames.ContentType   -> mimeType
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
@@ -62,8 +64,8 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> "application/vnd.hmrc.1.0+json",
-          HttpHeaderNames.ContentType   -> "application/json"
+          HttpHeaderNames.Accept        -> acceptType,
+          HttpHeaderNames.ContentType   -> mimeType
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
@@ -75,8 +77,8 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> "application/vnd.hmrc.1.0+json",
-          HttpHeaderNames.ContentType   -> "application/json"
+          HttpHeaderNames.Accept        -> acceptType,
+          HttpHeaderNames.ContentType   -> mimeType
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
@@ -88,8 +90,8 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> "application/vnd.hmrc.1.0+json",
-          HttpHeaderNames.ContentType   -> "application/json"
+          HttpHeaderNames.Accept        -> acceptType,
+          HttpHeaderNames.ContentType   -> mimeType
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
