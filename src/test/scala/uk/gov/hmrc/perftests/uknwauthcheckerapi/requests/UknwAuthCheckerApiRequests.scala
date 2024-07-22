@@ -29,12 +29,12 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
   val route: String               = "/authorisations"
   private val acceptType          = "application/vnd.hmrc.1.0+json"
   private val mimeType            = "application/json"
-  private val bearerToken: String = if (runLocal) s"$${accessToken}" else s"Bearer $${accessToken}"
+  private val bearerToken: String = s"$${accessToken}"
 
-  val postAuthorisation: HttpRequestBuilder =
+  private def getHttpRequest(payload: String) =
     http("Post Authorisations")
       .post(s"$baseUrl$route": String)
-      .body(StringBody(Helper.singleEoriJsonBody))
+      .body(StringBody(payload))
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
@@ -44,55 +44,13 @@ object UknwAuthCheckerApiRequests extends ServicesConfiguration {
       )
       .check(status.is(HttpResponseStatus.OK.code()))
 
-  val post100EoriAuthorisation: HttpRequestBuilder =
-    http("Post Authorisations")
-      .post(s"$baseUrl$route": String)
-      .body(StringBody(Helper.hundredEoriJsonBody))
-      .headers(
-        Map(
-          HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> acceptType,
-          HttpHeaderNames.ContentType   -> mimeType
-        )
-      )
-      .check(status.is(HttpResponseStatus.OK.code()))
+  val postAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.singleEoriJsonBody)
 
-  val post500EoriAuthorisation: HttpRequestBuilder =
-    http("Post Authorisations")
-      .post(s"$baseUrl$route": String)
-      .body(StringBody(Helper.fiveHundredEoriJsonBody))
-      .headers(
-        Map(
-          HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> acceptType,
-          HttpHeaderNames.ContentType   -> mimeType
-        )
-      )
-      .check(status.is(HttpResponseStatus.OK.code()))
+  val post100EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.hundredEoriJsonBody)
 
-  val post1000EoriAuthorisation: HttpRequestBuilder =
-    http("Post Authorisations")
-      .post(s"$baseUrl$route": String)
-      .body(StringBody(Helper.thousandEoriJsonBody))
-      .headers(
-        Map(
-          HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> acceptType,
-          HttpHeaderNames.ContentType   -> mimeType
-        )
-      )
-      .check(status.is(HttpResponseStatus.OK.code()))
+  val post500EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.fiveHundredEoriJsonBody)
 
-  val post3000EoriAuthorisation: HttpRequestBuilder =
-    http("Post Authorisations")
-      .post(s"$baseUrl$route": String)
-      .body(StringBody(Helper.threeThousandEoriJsonBody))
-      .headers(
-        Map(
-          HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> acceptType,
-          HttpHeaderNames.ContentType   -> mimeType
-        )
-      )
-      .check(status.is(HttpResponseStatus.OK.code()))
+  val post1000EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.thousandEoriJsonBody)
+
+  val post3000EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.threeThousandEoriJsonBody)
 }
