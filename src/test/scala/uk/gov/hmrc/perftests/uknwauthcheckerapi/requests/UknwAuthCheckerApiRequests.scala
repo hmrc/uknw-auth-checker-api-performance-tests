@@ -14,41 +14,43 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.perftests.example
+package uk.gov.hmrc.perftests.uknwauthcheckerapi.requests
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import io.netty.handler.codec.http.HttpResponseStatus
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.Helper
 
 object UknwAuthCheckerApiRequests extends ServicesConfiguration {
 
   val baseUrl: String             = baseUrlFor("uknw-auth-checker-api")
   val route: String               = "/authorisations"
-  private val bearerToken: String = if (runLocal) s"$${accessToken}" else s"Bearer $${accessToken}"
+  private val acceptType          = "application/vnd.hmrc.1.0+json"
+  private val mimeType            = "application/json"
+  private val bearerToken: String = s"$${accessToken}"
 
-  val navigateToHomePage: HttpRequestBuilder =
-    http("Navigate to Home Page")
-      .get(s"$baseUrl$route/vat-return-period")
-      .check(status.is(200))
-      .check(css("input[name=csrfToken]", "value").saveAs("csrfToken"))
-
-  val postAuthorisations: HttpRequestBuilder =
+  private def getHttpRequest(payload: String) =
     http("Post Authorisations")
       .post(s"$baseUrl$route": String)
-      .body(StringBody("""{
-                         |  "date":"2024-02-08",
-                         |  "authType": "UKNW",
-                         |  "eoris" : ["GB000000000200"]
-                         |}""".stripMargin))
+      .body(StringBody(payload))
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> "application/vnd.hmrc.1.0+json",
-          HttpHeaderNames.ContentType   -> "application/json"
+          HttpHeaderNames.Accept        -> acceptType,
+          HttpHeaderNames.ContentType   -> mimeType
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
 
+  val postAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.singleEoriJsonBody)
+
+  val post100EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.hundredEoriJsonBody)
+
+  val post500EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.fiveHundredEoriJsonBody)
+
+  val post1000EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.thousandEoriJsonBody)
+
+  val post3000EoriAuthorisation: HttpRequestBuilder = getHttpRequest(Helper.threeThousandEoriJsonBody)
 }
