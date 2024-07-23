@@ -20,6 +20,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import io.netty.handler.codec.http.HttpResponseStatus
+
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
 object BearerTokenGenerator extends ServicesConfiguration {

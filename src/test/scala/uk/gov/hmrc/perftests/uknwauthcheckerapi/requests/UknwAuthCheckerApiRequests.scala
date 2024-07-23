@@ -20,15 +20,16 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import io.netty.handler.codec.http.HttpResponseStatus
+
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.Helper
 
 object UknwAuthCheckerApiRequests extends ServicesConfiguration {
 
-  val baseUrl: String             = baseUrlFor("uknw-auth-checker-api")
-  val route: String               = "/authorisations"
-  private val acceptType          = "application/vnd.hmrc.1.0+json"
-  private val mimeType            = "application/json"
+  val baseUrl: String = baseUrlFor("uknw-auth-checker-api")
+  val route:   String = "/authorisations"
+  private val acceptType = "application/vnd.hmrc.1.0+json"
+  private val mimeType   = "application/json"
   private val bearerToken: String = s"$${accessToken}"
 
   private def getHttpRequest(payload: String) =

@@ -21,16 +21,16 @@ import scala.io.Source
 object Helper {
 
   def withFileAsString(fileName: String): String = {
-    val source = Source.fromFile(fileName, "utf-8")
+    val source = Source.fromResource(fileName)
     try
       source.mkString
     finally
       source.close()
   }
 
-  val singleEoriJsonBody: String        = withFileAsString("src/test/resources/data/1Eori.json")
-  val hundredEoriJsonBody: String       = withFileAsString("src/test/resources/data/100Eori.json")
-  val fiveHundredEoriJsonBody: String   = withFileAsString("src/test/resources/data/500Eori.json")
-  val thousandEoriJsonBody: String      = withFileAsString("src/test/resources/data/1000Eori.json")
-  val threeThousandEoriJsonBody: String = withFileAsString("src/test/resources/data/3000Eori.json")
+  val singleEoriJsonBody:        String = withFileAsString("1Eori.json")
+  val hundredEoriJsonBody:       String = withFileAsString("100Eori.json")
+  val fiveHundredEoriJsonBody:   String = withFileAsString("500Eori.json")
+  val thousandEoriJsonBody:      String = withFileAsString("1000Eori.json")
+  val threeThousandEoriJsonBody: String = withFileAsString("3000Eori.json")
 }
