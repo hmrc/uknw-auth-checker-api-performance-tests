@@ -11,13 +11,7 @@ Performance test suite for the `uknw-auth-checker-api`, using [performance-test-
 Start Mongo Docker container as follows:
 
 ```bash
-docker run --rm -d -p 27017:27017 --name mongo mongo:4.4
-```
-
-Start `PLATFORM_TEST_EXAMPLE_UI_JOURNEY_TESTS` services as follows:
-
-```bash
-sm2 --start PLATFORM_TEST_EXAMPLE_UI_JOURNEY_TESTS
+docker run --restart unless-stopped --name mongodb -p 27017:27017 -d percona/percona-server-mongodb:5.0
 ```
 
 ### Logging
@@ -33,13 +27,13 @@ Do **NOT** run a full performance test against staging from your local machine. 
 Run smoke test (locally) as follows:
 
 ```bash
-sbt -Dperftest.runSmokeTest=true -DrunLocal=true gatling:test
+sbt -Dperftest.runSmokeTest=true gatling:test
 ```
 
 Run full performance test (locally) as follows:
 
 ```bash
-sbt -DrunLocal=true gatling:test
+sbt gatling:test
 ```
 
 Run smoke test (staging) as follows:
