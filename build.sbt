@@ -16,7 +16,8 @@ lazy val root = (project in file("."))
     // These testOptions are not compatible with `sbt gatling:test`. So we have to override testOptions here.
     Test / testOptions := Seq.empty,
     libraryDependencies ++= Dependencies.test,
-    Compile / unmanagedResourceDirectories += baseDirectory.value / "src" / "test" / "resources" / "data"
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "src" / "test" / "resources" / "data",
+    Test / unmanagedResourceDirectories += baseDirectory.value / "src" / "test" / "resources" / "data"
   )
 
 addCommandAlias("fmtAll", ";scalafmtSbt;scalafmtAll")
