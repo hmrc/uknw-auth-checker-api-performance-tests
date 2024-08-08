@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.perftests.uknwauthcheckerapi.requests
+package uk.gov.hmrc.perftests.uknwauthcheckerapi.services
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import io.netty.handler.codec.http.HttpResponseStatus
-
+import play.api.http.MimeTypes
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
-object BearerTokenGenerator extends ServicesConfiguration {
+object AuthService extends ServicesConfiguration {
 
   private lazy val authLoginApiUrl: String = s"${baseUrlFor("auth-login-api")}/application/session/login"
 
@@ -43,7 +43,7 @@ object BearerTokenGenerator extends ServicesConfiguration {
     http("POST Auth Record")
       .post(authLoginApiUrl)
       .body(StringBody(authPayload))
-      .headers(Map(HttpHeaderNames.ContentType -> "application/json"))
+      .headers(Map(HttpHeaderNames.ContentType -> MimeTypes.JSON))
       .check(header("Authorization").saveAs("accessToken"))
       .check(status.is(HttpResponseStatus.CREATED.code()))
 

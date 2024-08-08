@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.perftests.uknwauthcheckerapi
+package uk.gov.hmrc.perftests.uknwauthcheckerapi.simulations
 
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.requests.BearerTokenGenerator.getBearerToken
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.requests.UknwAuthCheckerApiRequests._
+import BaseSimulation._
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.services.AuthService.getBearerToken
 
 class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
 
