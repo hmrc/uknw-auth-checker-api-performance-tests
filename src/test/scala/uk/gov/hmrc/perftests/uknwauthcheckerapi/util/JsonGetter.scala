@@ -16,21 +16,20 @@
 
 package uk.gov.hmrc.perftests.uknwauthcheckerapi.util
 
-import scala.io.Source
+import play.api.libs.json.{JsValue, Json}
 
-object Helper {
+trait JsonGetter {
 
-  def withFileAsString(fileName: String): String = {
-    val source = Source.fromResource(fileName)
-    try
-      source.mkString
-    finally
-      source.close()
-  }
+  val authRequest: String =
+    """
+      |{
+      |  "eoris" : {{eoris}}
+      |}
+      |""".stripMargin
 
-  val singleEoriJsonBody:        String = withFileAsString("1Eori.json")
-  val hundredEoriJsonBody:       String = withFileAsString("100Eori.json")
-  val fiveHundredEoriJsonBody:   String = withFileAsString("500Eori.json")
-  val thousandEoriJsonBody:      String = withFileAsString("1000Eori.json")
-  val threeThousandEoriJsonBody: String = withFileAsString("3000Eori.json")
+  def getRequestJson(eoris: Seq[String]): JsValue =
+    Json.parse(
+      authRequest
+        .replace("{{eoris}}", eoris.map(e => s"\"" + e + "\"").mkString("[", ",", "]"))
+    )
 }
