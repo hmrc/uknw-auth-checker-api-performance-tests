@@ -10,80 +10,90 @@ Performance test suite for the `uknw-auth-checker-api`, using [performance-test-
 Start Mongo Docker container as follows:
 
 ```bash
-docker run --restart unless-stopped --name mongodb -p 27017:27017 -d percona/percona-server-mongodb:5.0
+docker run --restart unless-stopped --name mongodb -p 27017:27017 -d mongo:5.0
 ```
 
-### Logging
+Start API, API Stub, and other dependant services such as AUTH
 
-The default log level for all HTTP requests is set to `WARN`. Configure [logback.xml](src/test/resources/logback.xml) to update this if required.
+```bash
+sm2 --start NOTIFICATION_OF_PRESENTATION_ALL
+```
 
-### WARNING :warning:
+# Simulations
 
-Do **NOT** run a full performance test against staging from your local machine. Please [implement a new performance test job](https://confluence.tools.tax.service.gov.uk/display/DTRG/Practical+guide+to+performance+testing+a+digital+service#Practicalguidetoperformancetestingadigitalservice-SettingupabuildonJenkinstorunagainsttheStagingenvironment) and execute your job from the dashboard in [Performance Jenkins](https://performance.tools.staging.tax.service.gov.uk).
+| Journey         | Description                                                                                           |
+|-----------------|-------------------------------------------------------------------------------------------------------|
+| 100EoriJourney  | A journey where 100 EORIs are checked for NOP Waiver authorisation using the `uknw-auth-checker-api`  |
+| 500EoriJourney  | A journey where 500 EORIs are checked for NOP Waiver authorisation using the `uknw-auth-checker-api`  |
+| 1000EoriJourney | A journey where 1000 EORIs are checked for NOP Waiver authorisation using the `uknw-auth-checker-api` |
+| 3000EoriJourney | A journey where 3000 EORIs are checked for NOP Waiver authorisation using the `uknw-auth-checker-api` |
 
-## Tests
+## Running the tests
+
+### Local smoke test
 
 Run smoke test (locally) as follows:
 
 ```bash
-sbt -Dperftest.runSmokeTest=true gatling:test
+./run_tests.sh
 ```
+
+or by using sbt:
+
+```bash
+sbt -Dperftest.runSmokeTest=true Gatling/test
+```
+
+### Local performance test
 
 Run full performance test (locally) as follows:
 
 ```bash
-sbt gatling:test
+./run_tests.sh
 ```
 
-Run smoke test (staging) as follows:
+or by using sbt:
 
 ```bash
-sbt -Dperftest.runSmokeTest=true -DrunLocal=false gatling:test
+sbt Gatling/test
 ```
 
-## Scalafmt
+### Staging smoke test
 
-Check all project files are formatted as expected as follows:
+Run smoke test on staging as follows:
 
 ```bash
-sbt scalafmtCheckAll scalafmtCheck
+sbt -Dperftest.runSmokeTest=true -DrunLocal=false Gatling/test
 ```
 
-Format `*.sbt` and `project/*.scala` files as follows:
+#### WARNING:
 
-```bash
-sbt scalafmtSbt
-```
+Do **NOT** run a full performance test against staging from your local machine. Please and execute the `uknw-auth-checker-api-performance-tests` job from the dashboard in [Performance Jenkins](https://performance.tools.staging.tax.service.gov.uk).
 
-Format all project files as follows:
+## Custom commands
 
-```bash
-sbt scalafmtAll
-```
+### Pre-Commit
 
-### All tests
+This is a sbt command alias specific to this project. It will run a scala format, run a scala fix
 
-This is a sbt command alias specific to this project. It will run a scala format
-check, run a scala style check, run unit tests, run integration tests and produce a coverage report.
-> `sbt runAllChecks`
-
-> ### Pre-Commit
-
-This is a sbt command alias specific to this project. It will run a scala format , run a scala fix,
-run unit tests, run integration tests and produce a coverage report.
-> `sbt runAllChecks`
+> `sbt preCommit`
 
 ### Format all
 
 This is a sbt command alias specific to this project. It will run a scala format
 check in the app, tests, and integration tests
+
 > `sbt fmtAll`
 
-### Fix all
+### Fix
 
-This is a sbt command alias specific to this project. It will run the scala fix
-linter/reformatter in the app, tests, and integration tests
-> `sbt fixAll`
+This sbt command will run the scala fix linter/reformatter in the project
+
+> `sbt scalafixAll`
+
+## Logging
+
+The default log level for all HTTP requests is set to `WARN`. Configure [logback.xml](src/test/resources/logback.xml) to update this if required.
 
 ## License
 
