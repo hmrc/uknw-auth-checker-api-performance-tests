@@ -21,38 +21,31 @@ import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import io.netty.handler.codec.http.HttpResponseStatus
 import play.api.http.MimeTypes
-import play.api.libs.json.JsValue
+import play.api.libs.json.Json
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.requests.PerformanceRequests._
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.JsonGetter
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.models.AuthorisationRequest
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.generators.EoriGenerator
 
-object BaseSimulation extends ServicesConfiguration with JsonGetter {
+trait BaseSimulation extends ServicesConfiguration with EoriGenerator {
 
   val baseUrl: String = baseUrlFor("uknw-auth-checker-api")
   val route:   String = "/authorisations"
   private val acceptType = "application/vnd.hmrc.1.0+json"
   private val bearerToken: String = s"$${accessToken}"
 
-  private def getHttpRequest(payload: JsValue) =
+  def getHttpRequest(load: Int): HttpRequestBuilder = {
+    val request: AuthorisationRequest = AuthorisationRequest(useEoriGenerator(load))
+    val payload = StringBody(Json.toJsObject(request).toString())
     http("Post Authorisations")
       .post(s"$baseUrl$route": String)
-      .body(StringBody(payload.toString()))
+      .body(payload)
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept        -> acceptType,
-          HttpHeaderNames.ContentType   -> MimeTypes.JSON
+          HttpHeaderNames.Accept -> acceptType,
+          HttpHeaderNames.ContentType -> MimeTypes.JSON
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
-
-  val postAuthorisation: HttpRequestBuilder = getHttpRequest(getRequestJson(perfTest_1Eori))
-
-  val post100EoriAuthorisation: HttpRequestBuilder = getHttpRequest(getRequestJson(perfTest_100Eori))
-
-  val post500EoriAuthorisation: HttpRequestBuilder = getHttpRequest(getRequestJson(perfTest_500Eori))
-
-  val post1000EoriAuthorisation: HttpRequestBuilder = getHttpRequest(getRequestJson(perfTest_1000Eori))
-
-  val post3000EoriAuthorisation: HttpRequestBuilder = getHttpRequest(getRequestJson(perfTest_3000Eori))
+  }
 }

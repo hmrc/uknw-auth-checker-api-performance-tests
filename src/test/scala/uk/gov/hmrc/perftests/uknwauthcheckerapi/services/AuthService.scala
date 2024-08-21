@@ -23,7 +23,7 @@ import io.netty.handler.codec.http.HttpResponseStatus
 import play.api.http.MimeTypes
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
 
-object AuthService extends ServicesConfiguration {
+trait AuthService extends ServicesConfiguration {
 
   private lazy val authLoginApiUrl: String = s"${baseUrlFor("auth-login-api")}/application/session/login"
 

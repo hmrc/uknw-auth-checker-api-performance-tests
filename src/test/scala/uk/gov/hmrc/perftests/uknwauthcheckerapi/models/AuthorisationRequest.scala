@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.perftests.uknwauthcheckerapi.util
+package uk.gov.hmrc.perftests.uknwauthcheckerapi.models
 
-import play.api.libs.json.{JsValue, Json}
+import play.api.libs.json.{Json, OFormat}
 
-trait JsonGetter {
+case class AuthorisationRequest(eoris: Seq[String])
 
-  val authRequest: String =
-    """
-      |{
-      |  "eoris" : {{eoris}}
-      |}
-      |""".stripMargin
-
-  def getRequestJson(eoris: Seq[String]): JsValue =
-    Json.parse(
-      authRequest
-        .replace("{{eoris}}", eoris.map(e => s"\"" + e + "\"").mkString("[", ",", "]"))
-    )
+object AuthorisationRequest {
+  implicit val format: OFormat[AuthorisationRequest] = Json.format[AuthorisationRequest]
 }
+
+
+
+
