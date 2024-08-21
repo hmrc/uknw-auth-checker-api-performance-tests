@@ -27,7 +27,7 @@ class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
     "Single EORI Auth request"
   ).withActions(getBearerToken)
     .withRequests(
-      postAuthorisation
+      getHttpRequest(1)
     )
 
   setup(
@@ -35,7 +35,7 @@ class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
     "100 EORI Auth request"
   ).withActions(getBearerToken)
     .withRequests(
-      post100EoriAuthorisation
+      getHttpRequest(100)
     )
 
   setup(
@@ -43,7 +43,7 @@ class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
     "500 EORI Auth request"
   ).withActions(getBearerToken)
     .withRequests(
-      post500EoriAuthorisation
+      getHttpRequest(500)
     )
 
   setup(
@@ -51,7 +51,7 @@ class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
     "1000 EORI Auth request"
   ).withActions(getBearerToken)
     .withRequests(
-      post1000EoriAuthorisation
+      getHttpRequest(1000)
     )
 
   setup(
@@ -59,7 +59,7 @@ class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
     "3000 EORI Auth request"
   ).withActions(getBearerToken)
     .withRequests(
-      post3000EoriAuthorisation
+      getHttpRequest(3000)
     )
 
   runSimulation()
