@@ -30,6 +30,18 @@ sm2 --start NOTIFICATION_OF_PRESENTATION_ALL
 
 ## Running the tests
 
+### Testing Approach
+
+This repository makes the use of a dynamic testing approach to follow that of the
+[Stub](https://github.com/hmrc/uknw-auth-checker-api-stub)
+and [performance tests](https://github.com/hmrc/uknw-auth-checker-api-performance-tests).
+This works through having a [pre-determined set of authorised EORIs](src/test/scala/uk/gov/hmrc/perftests/uknwauthcheckerapi/util/Eoris.scala)
+and a [custom EORI generator](src/test/scala/uk/gov/hmrc/perftests/uknwauthcheckerapi/util/generators/EoriGenerator.scala).
+
+The EORI generator allows a chosen number of EORIs and a chosen number of valid EORIs (up to the number of EORIs in the
+predetermined list) to be generated. The generator will output a sequence with the correct combination based on the
+input.
+
 ### Local smoke test
 
 Run smoke test (locally) as follows:

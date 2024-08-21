@@ -23,10 +23,10 @@ import io.netty.handler.codec.http.HttpResponseStatus
 import play.api.http.MimeTypes
 import play.api.libs.json.Json
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.requests.AuthorisationRequest
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.models.AuthorisationRequest
 import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.generators.EoriGenerator
 
-object BaseSimulation extends ServicesConfiguration with EoriGenerator {
+trait BaseSimulation extends ServicesConfiguration with EoriGenerator {
 
   val baseUrl: String = baseUrlFor("uknw-auth-checker-api")
   val route:   String = "/authorisations"

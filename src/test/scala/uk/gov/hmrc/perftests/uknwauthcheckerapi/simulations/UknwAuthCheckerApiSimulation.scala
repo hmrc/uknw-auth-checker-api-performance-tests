@@ -17,10 +17,9 @@
 package uk.gov.hmrc.perftests.uknwauthcheckerapi.simulations
 
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
-import BaseSimulation._
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.services.AuthService.getBearerToken
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.services.AuthService
 
-class UknwAuthCheckerApiSimulation extends PerformanceTestRunner {
+class UknwAuthCheckerApiSimulation extends PerformanceTestRunner with AuthService with BaseSimulation {
 
   setup(
     "SingleEoriJourney",

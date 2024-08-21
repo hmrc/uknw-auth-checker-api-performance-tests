@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.perftests.uknwauthcheckerapi.requests
+package uk.gov.hmrc.perftests.uknwauthcheckerapi.models
 
 import play.api.libs.json.{Json, OFormat}
 
