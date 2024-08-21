@@ -20,6 +20,7 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.http.request.builder.HttpRequestBuilder
 import io.netty.handler.codec.http.HttpResponseStatus
+
 import play.api.http.MimeTypes
 import play.api.libs.json.Json
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
@@ -34,7 +35,7 @@ trait BaseSimulation extends ServicesConfiguration with EoriGenerator {
   private val bearerToken: String = s"$${accessToken}"
 
   def getHttpRequest(load: Int): HttpRequestBuilder = {
-    val request: AuthorisationRequest = AuthorisationRequest(useEoriGenerator(load))
+    val request: AuthorisationRequest = AuthorisationRequest(authorisedEoriGen(load))
     val payload = StringBody(Json.toJsObject(request).toString())
     http("Post Authorisations")
       .post(s"$baseUrl$route": String)
@@ -42,8 +43,8 @@ trait BaseSimulation extends ServicesConfiguration with EoriGenerator {
       .headers(
         Map(
           HttpHeaderNames.Authorization -> bearerToken,
-          HttpHeaderNames.Accept -> acceptType,
-          HttpHeaderNames.ContentType -> MimeTypes.JSON
+          HttpHeaderNames.Accept        -> acceptType,
+          HttpHeaderNames.ContentType   -> MimeTypes.JSON
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))

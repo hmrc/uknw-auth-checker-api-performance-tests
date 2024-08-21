@@ -23,7 +23,3 @@ case class AuthorisationRequest(eoris: Seq[String])
 object AuthorisationRequest {
   implicit val format: OFormat[AuthorisationRequest] = Json.format[AuthorisationRequest]
 }
-
-
-
-
