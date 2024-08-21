@@ -34,7 +34,7 @@ trait BaseSimulation extends ServicesConfiguration with EoriGenerator {
   private val bearerToken: String = s"$${accessToken}"
 
   def getHttpRequest(load: Int): HttpRequestBuilder = {
-    val request: AuthorisationRequest = AuthorisationRequest(useEoriGenerator(load, Some(load)))
+    val request: AuthorisationRequest = AuthorisationRequest(useEoriGenerator(load))
     val payload = StringBody(Json.toJsObject(request).toString())
     http("Post Authorisations")
       .post(s"$baseUrl$route": String)
