@@ -17,43 +17,12 @@
 package uk.gov.hmrc.perftests.uknwauthcheckerapi.util.generators
 
 import org.scalacheck.Gen
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.{CustomRegex, Eoris}
-import wolfendale.scalacheck.regexp.RegexpGen
 
-trait EoriGenerator extends Eoris with Generators {
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.Eoris
 
-  private val eoriGen: Gen[String] = RegexpGen.from(CustomRegex.eoriPattern)
+trait EoriGenerator extends Eoris {
 
-  private def authorisedEoriGen(numberOfAuthorisedEoris: Int): Gen[Seq[String]] =
-    Gen.pick(numberOfAuthorisedEoris, authorisedEoris).map(_.toSeq)
+  def authorisedEoriGen(numberOfAuthorisedEoris: Int): Seq[String] =
+    Gen.pick(numberOfAuthorisedEoris, authorisedEoris).map(_.toSeq).sample.get
 
-  private def invalidEoriGen(numberOfEoris: Int): Gen[Seq[String]] =
-    Gen.listOfN(numberOfEoris, eoriGen)
-
-  private def combinedEoriGen(numberOfEoris: Int, numberOfAuthorisedEoris: Int): Gen[Seq[String]] =
-    for {
-      authorisedEoris <- authorisedEoriGen(numberOfAuthorisedEoris)
-      invalidEoris    <- invalidEoriGen(numberOfEoris - numberOfAuthorisedEoris)
-    } yield authorisedEoris ++ invalidEoris
-
-  private def validateEoriCounts(numberOfEoris: Int, numberOfAuthorisedEoris: Int): Unit = {
-    if (numberOfAuthorisedEoris > numberOfEoris) {
-      throw new IllegalArgumentException("Number of authorised EORIs cannot be greater than the total number of EORIs")
-    }
-
-    if (numberOfAuthorisedEoris > authorisedEoris.size) {
-      throw new IllegalArgumentException(
-        s"Number of authorised EORIs cannot be greater than the total number of authorised EORIs within the authorised EORI test set (${authorisedEoris.size})"
-      )
-    }
-  }
-
-  protected def eoriGenerator(numberOfEoris: Int, numberOfAuthorisedEoris: Option[Int] = None): Gen[Seq[String]] = {
-    val numOfAuthEoris = numberOfAuthorisedEoris.getOrElse(numberOfEoris)
-    validateEoriCounts(numberOfEoris, numOfAuthEoris)
-    combinedEoriGen(numberOfEoris, numOfAuthEoris)
-  }
-
-  protected def useEoriGenerator(numberOfEoris: Int, numberOfAuthorisedEoris: Option[Int] = None): Seq[String] =
-    eoriGenerator(numberOfEoris, numberOfAuthorisedEoris).sample.get
 }
