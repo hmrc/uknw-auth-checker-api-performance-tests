@@ -31,9 +31,9 @@ trait AuthService extends ServicesConfiguration {
   val authPayload: String =
     s"""
        |{
-       |  "clientId": "uknw-auth-checker-api",
+       |  "clientId": "753584d4-52c5-42fa-947c-d1523c1aa1a0",
        |  "authProvider": "StandardApplication",
-       |  "applicationId":"uknw-auth-checker-api",
+       |  "applicationId":"05d1cc00-a3e2-480e-a7bc-1b7d4a47c674",
        |  "applicationName": "uknw-auth-checker-api",
        |  "enrolments": [],
        |  "ttl": 5000
