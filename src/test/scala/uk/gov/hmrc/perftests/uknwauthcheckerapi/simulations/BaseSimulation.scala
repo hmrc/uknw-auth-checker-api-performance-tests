@@ -24,10 +24,12 @@ import io.netty.handler.codec.http.HttpResponseStatus
 import play.api.http.MimeTypes
 import play.api.libs.json.Json
 import uk.gov.hmrc.performance.conf.ServicesConfiguration
+import uk.gov.hmrc.performance.simulation.JourneyPart
 import uk.gov.hmrc.perftests.uknwauthcheckerapi.models.AuthorisationRequest
+import uk.gov.hmrc.perftests.uknwauthcheckerapi.services.AuthService
 import uk.gov.hmrc.perftests.uknwauthcheckerapi.util.generators.EoriGenerator
 
-trait BaseSimulation extends ServicesConfiguration with EoriGenerator {
+trait BaseSimulation extends ServicesConfiguration with AuthService with EoriGenerator {
 
   val baseUrl: String = baseUrlFor("uknw-auth-checker-api")
   val route:   String = "/authorisations"
@@ -48,5 +50,10 @@ trait BaseSimulation extends ServicesConfiguration with EoriGenerator {
         )
       )
       .check(status.is(HttpResponseStatus.OK.code()))
+  }
+
+  implicit class JourneyPartExtension(journeyPart: JourneyPart) {
+    def withAuthenticatedRequests(load: Int): JourneyPart =
+      journeyPart.withActions(getBearerToken).withRequests(getHttpRequest(load))
   }
 }

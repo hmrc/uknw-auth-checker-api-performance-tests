@@ -17,49 +17,33 @@
 package uk.gov.hmrc.perftests.uknwauthcheckerapi.simulations
 
 import uk.gov.hmrc.performance.simulation.PerformanceTestRunner
-import uk.gov.hmrc.perftests.uknwauthcheckerapi.services.AuthService
 
-class UknwAuthCheckerApiSimulation extends PerformanceTestRunner with AuthService with BaseSimulation {
+class UknwAuthCheckerApiSimulation extends PerformanceTestRunner with BaseSimulation {
 
   setup(
     "SingleEoriJourney",
     "Single EORI Auth request"
-  ).withActions(getBearerToken)
-    .withRequests(
-      getHttpRequest(1)
-    )
+  ).withAuthenticatedRequests(1)
 
   setup(
     "100EoriJourney",
     "100 EORI Auth request"
-  ).withActions(getBearerToken)
-    .withRequests(
-      getHttpRequest(100)
-    )
+  ).withAuthenticatedRequests(100)
 
   setup(
     "500EoriJourney",
     "500 EORI Auth request"
-  ).withActions(getBearerToken)
-    .withRequests(
-      getHttpRequest(500)
-    )
+  ).withAuthenticatedRequests(500)
 
   setup(
     "1000EoriJourney",
     "1000 EORI Auth request"
-  ).withActions(getBearerToken)
-    .withRequests(
-      getHttpRequest(1000)
-    )
+  ).withAuthenticatedRequests(1000)
 
   setup(
     "3000EoriJourney",
     "3000 EORI Auth request"
-  ).withActions(getBearerToken)
-    .withRequests(
-      getHttpRequest(3000)
-    )
+  ).withAuthenticatedRequests(3000)
 
   runSimulation()
 }
