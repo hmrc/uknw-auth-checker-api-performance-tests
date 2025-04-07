@@ -10,7 +10,7 @@ Performance test suite for the `uknw-auth-checker-api`, using [performance-test-
 Start Mongo Docker container as follows:
 
 ```bash
-docker run --restart unless-stopped --name mongodb -p 27017:27017 -d mongo:5.0
+docker run --restart unless-stopped --name mongodb -p 27017:27017 -d mongo:6.0
 ```
 
 Start API, API Stub, and other dependant services such as AUTH
