@@ -8,9 +8,10 @@ Performance test suite for the `uknw-auth-checker-api`, using [performance-test-
 ### Services
 
 Start Mongo Docker container as follows:
+(please use latest version as per MDTP best practices, this is just an example)
 
 ```bash
-docker run --restart unless-stopped --name mongodb -p 27017:27017 -d mongo:5.0
+docker run --restart unless-stopped --name mongodb -p 27017:27017 -d percona/percona-server-mongodb:6.0 --replSet rs0
 ```
 
 Start API, API Stub, and other dependant services such as AUTH
@@ -47,7 +48,7 @@ input.
 Run smoke test (locally) as follows:
 
 ```bash
-./run_tests.sh
+./run_smoke.sh
 ```
 
 or by using sbt:
@@ -80,7 +81,7 @@ sbt -Dperftest.runSmokeTest=true -DrunLocal=false Gatling/test
 
 #### WARNING:
 
-Do **NOT** run a full performance test against staging from your local machine. Please and execute the `uknw-auth-checker-api-performance-tests` job from the dashboard in [Performance Jenkins](https://performance.tools.staging.tax.service.gov.uk).
+Do **NOT** run a full performance test against staging from your local machine. Please and execute the `uknw-auth-checker-api-performance-tests` job from the dashboard in [Performance Jenkins](https://performance.tools.staging.tax.service.gov.uk/job/uknw-auth-checker-api-performance-tests/).
 
 ## Custom commands
 
