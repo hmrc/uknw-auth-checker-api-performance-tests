@@ -45,7 +45,7 @@ trait AuthService extends ServicesConfiguration {
       .post(authLoginApiUrl)
       .body(StringBody(authPayload))
       .headers(Map(HttpHeaderNames.ContentType -> MimeTypes.JSON))
-      .check(header("Authorization").saveAs("accessToken"))
+      .check(header(_ => "Authorization").saveAs("accessToken"))
       .check(status.is(HttpResponseStatus.CREATED.code()))
 
 }
