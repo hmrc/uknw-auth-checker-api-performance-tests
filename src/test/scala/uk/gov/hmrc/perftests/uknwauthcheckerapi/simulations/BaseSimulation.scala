@@ -34,7 +34,7 @@ trait BaseSimulation extends ServicesConfiguration with AuthService with EoriGen
   val baseUrl: String = baseUrlFor("uknw-auth-checker-api")
   val route:   String = "/authorisations"
   private val acceptType = "application/vnd.hmrc.1.0+json"
-  private val bearerToken: String = s"$${accessToken}"
+  private val bearerToken: String = "#{accessToken}"
 
   def getHttpRequest(load: Int): HttpRequestBuilder = {
     val request: AuthorisationRequest = AuthorisationRequest(authorisedEoriGen(load))
